@@ -6,6 +6,290 @@
   <title>Dev Portfolio | CSE Student</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <!-- ── RESUME SECTION STYLES (inline so no style.css edit needed) ── -->
+  <style>
+    /* ── Resume Section ── */
+    .resume {
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resume::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(232,255,74,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .resume-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    /* Left: preview card */
+    .resume-preview {
+      position: relative;
+    }
+
+    .resume-card {
+      background: var(--bg);
+      border: 1px solid rgba(232,255,74,0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(232,255,74,0.05), 0 20px 48px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .resume-card:hover {
+      transform: translateY(-6px) rotate(-0.5deg);
+      box-shadow: 0 0 60px rgba(232,255,74,0.1), 0 28px 64px rgba(0,0,0,0.5);
+    }
+
+    .resume-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2, #ff6b35));
+    }
+
+    .rc-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(240,237,230,0.08);
+    }
+
+    .rc-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #ff6b35);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #0a0a0a;
+      flex-shrink: 0;
+    }
+
+    .rc-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .rc-role {
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .rc-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .rc-section-title {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.35rem;
+    }
+
+    .rc-bar {
+      height: 6px;
+      border-radius: 100px;
+      background: rgba(240,237,230,0.08);
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .rc-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), #ff6b35);
+      animation: rcFill 1.2s 0.5s cubic-bezier(0.4,0,0.2,1) both;
+    }
+
+    @keyframes rcFill {
+      from { width: 0 !important; }
+      to   { width: var(--w); }
+    }
+
+    .rc-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .rc-tag {
+      font-size: 0.62rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      background: rgba(232,255,74,0.08);
+      border: 1px solid rgba(232,255,74,0.2);
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .resume-badge {
+      position: absolute;
+      top: -10px; right: -10px;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 16px rgba(232,255,74,0.4);
+      animation: badgePop 0.5s 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes badgePop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* Right: text + download button */
+    .resume-content h2 {
+      margin-bottom: 1rem;
+    }
+
+    .resume-desc {
+      color: var(--text-muted, #888);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .resume-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid rgba(240,237,230,0.08);
+    }
+
+    .rs-item {
+      text-align: center;
+    }
+
+    .rs-item span {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .rs-item small {
+      font-size: 0.68rem;
+      color: var(--text-muted, #888);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .resume-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: #0a0a0a;
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 0.9rem 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 0 28px rgba(232,255,74,0.25);
+      letter-spacing: 0.03em;
+    }
+
+    .btn-download:hover {
+      background: transparent;
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(232,255,74,0.35);
+    }
+
+    .btn-download .dl-icon {
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-download:hover .dl-icon {
+      transform: translateY(3px);
+    }
+
+    .btn-view-gh {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(240,237,230,0.15);
+      border-radius: 12px;
+      padding: 0.9rem 1.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-view-gh:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .resume-note {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted, #888);
+      font-family: 'Space Mono', monospace;
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .resume-grid {
+        grid-template-columns: 1fr;
+      }
+      .resume-preview { display: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -19,6 +303,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#resume">Resume</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger">&#9776;</button>
@@ -35,7 +320,7 @@
     <p class="hero-sub">2nd Year · B.Tech Computer Science · Building things for the web.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">View My Work</a>
-      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      <a href="#resume" class="btn btn-ghost">Download Resume ↓</a>
     </div>
     <div class="hero-scroll">scroll ↓</div>
   </section>
@@ -154,7 +439,7 @@
 
       <div class="project-card">
         <div class="project-top">
-          <span class="project-tag">Python</span>
+          <span class="project-tag">Web App</span>
           <span class="project-year">2025</span>
         </div>
         <h3>Spendly — Expense Tracker</h3>
@@ -203,9 +488,98 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ══════════════════════════════════════
+       RESUME SECTION  (new)
+  ══════════════════════════════════════ -->
+  <section class="section resume" id="resume">
+    <div class="section-label">04 — Resume</div>
+
+    <div class="resume-grid">
+
+      <!-- Left: visual resume card -->
+      <div class="resume-preview fade-in">
+        <div class="resume-badge">2025 — Updated</div>
+        <div class="resume-card">
+          <div class="rc-header">
+            <div class="rc-avatar">PT</div>
+            <div>
+              <div class="rc-name">Priyanshu Tiwari</div>
+              <div class="rc-role">B.Tech CSE · 2nd Year · Web Developer</div>
+            </div>
+          </div>
+          <div class="rc-lines">
+            <div>
+              <div class="rc-section-title">Skills</div>
+              <div class="rc-bar"><div class="rc-bar-fill" style="--w:85%; width:85%"></div></div>
+              <div class="rc-bar"><div class="rc-bar-fill" style="--w:80%; width:80%"></div></div>
+              <div class="rc-bar"><div class="rc-bar-fill" style="--w:70%; width:70%"></div></div>
+            </div>
+            <div>
+              <div class="rc-section-title">Projects</div>
+              <div class="rc-bar"><div class="rc-bar-fill" style="--w:95%; width:95%"></div></div>
+              <div class="rc-bar"><div class="rc-bar-fill" style="--w:88%; width:88%"></div></div>
+            </div>
+            <div class="rc-tag-row">
+              <span class="rc-tag">HTML</span>
+              <span class="rc-tag">CSS</span>
+              <span class="rc-tag">JS</span>
+              <span class="rc-tag">Python</span>
+              <span class="rc-tag">Git</span>
+              <span class="rc-tag">REST API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: description + download -->
+      <div class="resume-content fade-in">
+        <h2>My Resume</h2>
+        <p class="resume-desc">
+          A one-page resume covering my education, technical skills, projects, and achievements.
+          Designed to be clean, recruiter-friendly, and ATS-compatible.
+        </p>
+
+        <div class="resume-stats">
+          <div class="rs-item"><span>5+</span><small>Projects</small></div>
+          <div class="rs-item"><span>6+</span><small>Skills</small></div>
+          <div class="rs-item"><span>2nd</span><small>Year CSE</small></div>
+        </div>
+
+        <div class="resume-actions">
+          <!-- 
+            HOW TO ADD YOUR RESUME:
+            1. Upload your resume PDF to your GitHub repo root as "Priyanshu_Tiwari_Resume.pdf"
+            2. The href below will automatically work on GitHub Pages
+          -->
+          <a
+            href="Priyanshu_Tiwari_Resume.pdf"
+            download="Priyanshu_Tiwari_Resume.pdf"
+            class="btn-download"
+            id="downloadBtn"
+          >
+            <span class="dl-icon">⬇</span>
+            Download Resume
+          </a>
+          <a
+            href="https://github.com/Dev-priyanshu-tiwari"
+            target="_blank"
+            class="btn-view-gh"
+          >
+            💾 View GitHub
+          </a>
+        </div>
+
+        <p class="resume-note">
+          📄 PDF · Last updated 2025 · 1 page
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT (now 05) -->
   <section class="section contact" id="contact">
-    <div class="section-label">04 — Contact</div>
+    <div class="section-label">05 — Contact</div>
     <h2>Let's Connect</h2>
     <p class="contact-sub">Open to internships, collaborations, and interesting projects.</p>
     <div class="contact-grid">
@@ -216,11 +590,11 @@
         </a>
         <a href="https://linkedin.com/in/priyanshu-tiwari1117" target="_blank" class="contact-item">
           <span class="ci-icon">🔗</span>
-          <span>linkedin.com/in/priyanshu Tiwari</Table>iwari</span>
+          <span>linkedin.com/in/priyanshu-tiwari1117</span>
         </a>
         <a href="https://github.com/Dev-priyanshu-tiwari" target="_blank" class="contact-item">
           <span class="ci-icon">💾</span>
-          <span>github.com/Priyanshu Tiwari</span>
+          <span>github.com/Dev-priyanshu-tiwari</span>
         </a>
       </div>
       <form class="contact-form" id="contactForm">
@@ -236,7 +610,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <p>Designed & Built by <strong>Priyanshu Tiwari</strong> · 2026</p>
-    <p class="footer-sub">Made with HTML, CSS, JavaScript & Your ❤️ </p>
+    <p class="footer-sub">Made with HTML, CSS, JavaScript & Your ❤️</p>
   </footer>
 
   <script src="script.js"></script>
