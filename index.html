@@ -7,6 +7,515 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
 
+  <style>
+    /* ═══════════════════════════════════════
+       RESUME SECTION — hardcoded, no CSS var
+    ═══════════════════════════════════════ */
+    #resume {
+      background: #111111;
+      position: relative;
+      overflow: hidden;
+    }
+    #resume::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(232,255,74,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .resume-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    /* LEFT card */
+    .resume-preview { position: relative; }
+    .resume-updated-badge {
+      position: absolute;
+      top: -12px; right: -8px;
+      z-index: 10;
+      background: #e8ff4a;
+      color: #0a0a0a;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+      box-shadow: 0 4px 16px rgba(232,255,74,0.45);
+    }
+    .resume-mock-card {
+      background: #0a0a0a;
+      border: 1px solid rgba(232,255,74,0.22);
+      border-radius: 18px;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(232,255,74,0.06), 0 24px 56px rgba(0,0,0,0.5);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .resume-mock-card:hover {
+      transform: translateY(-6px) rotate(-0.4deg);
+      box-shadow: 0 0 64px rgba(232,255,74,0.12), 0 32px 72px rgba(0,0,0,0.6);
+    }
+    .resume-mock-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e8ff4a, #ff6b35);
+    }
+    .rmc-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .rmc-avatar {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8ff4a, #ff6b35);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #0a0a0a;
+      flex-shrink: 0;
+    }
+    .rmc-info-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #f0ede6;
+      line-height: 1.2;
+    }
+    .rmc-info-role {
+      font-size: 0.7rem;
+      color: #e8ff4a;
+      margin-top: 3px;
+      font-family: 'Space Mono', monospace;
+    }
+    .rmc-section-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #e8ff4a;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.6rem;
+    }
+    .rmc-bars { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .rmc-bar-row { display: flex; align-items: center; gap: 0.7rem; }
+    .rmc-bar-label {
+      font-size: 0.65rem;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      min-width: 72px;
+    }
+    .rmc-bar-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .rmc-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, #e8ff4a, #ff6b35);
+    }
+    .rmc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .rmc-tag {
+      font-size: 0.6rem;
+      font-family: 'Space Mono', monospace;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      background: rgba(232,255,74,0.07);
+      border: 1px solid rgba(232,255,74,0.18);
+      color: #e8ff4a;
+    }
+    /* RIGHT content */
+    .resume-content h2 { margin-bottom: 1rem !important; color: #f0ede6; }
+    .resume-desc {
+      color: #888;
+      font-size: 0.88rem;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .resume-highlights {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      background: #0a0a0a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+    }
+    .rh-item { text-align: center; flex: 1; }
+    .rh-item span {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #e8ff4a;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .rh-item small {
+      font-size: 0.62rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: 'Space Mono', monospace;
+    }
+    .resume-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    /* Download button */
+    .btn-resume-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #e8ff4a;
+      color: #0a0a0a;
+      border: 2px solid #e8ff4a;
+      border-radius: 12px;
+      padding: 0.9rem 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 0 28px rgba(232,255,74,0.28);
+      letter-spacing: 0.04em;
+    }
+    .btn-resume-download:hover {
+      background: transparent;
+      color: #e8ff4a;
+      transform: translateY(-3px);
+      box-shadow: 0 0 44px rgba(232,255,74,0.4);
+    }
+    .dl-arrow { display: inline-block; transition: transform 0.3s ease; }
+    .btn-resume-download:hover .dl-arrow { transform: translateY(4px); }
+    /* Ghost button */
+    .btn-resume-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: transparent;
+      color: #f0ede6;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 0.9rem 1.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .btn-resume-ghost:hover {
+      border-color: #e8ff4a;
+      color: #e8ff4a;
+      transform: translateY(-3px);
+    }
+    .resume-note {
+      font-size: 0.7rem;
+      color: #555;
+      font-family: 'Space Mono', monospace;
+      line-height: 1.7;
+    }
+    .resume-note strong { color: #e8ff4a; }
+
+    @media (max-width: 900px) {
+      .resume-grid { grid-template-columns: 1fr; }
+      .resume-preview { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="noise"></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">&lt;Priyanshu /&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-tag">Available for internships</div>
+    <h1 class="hero-title">
+      <span class="line">Hi, I'm</span>
+      <span class="line accent">Priyanshu Tiwari</span>
+      <span class="line">— CSE Student</span>
+    </h1>
+    <p class="hero-sub">2nd Year · B.Tech Computer Science · Building things for the web.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#resume" class="btn btn-ghost">Download Resume ↓</a>
+    </div>
+    <div class="hero-scroll">scroll ↓</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="section-label">01 — About</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>Who am I?</h2>
+        <p>I'm a 2nd year Computer Science student passionate about building clean, fast, and user-friendly web experiences. I enjoy turning ideas into reality through code.</p>
+        <p>Currently exploring full-stack web development, and always looking to learn something new. When I'm not coding, I'm probably solving DSA problems or reading about tech trends.</p>
+        <div class="about-stats">
+          <div class="stat"><span>2nd</span><small>Year B.Tech</small></div>
+          <div class="stat"><span>5+</span><small>Projects Built</small></div>
+          <div class="stat"><span>CSE</span><small>Department</small></div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="card-inner">
+          <div class="avatar-box"><div class="avatar-initials">PT</div></div>
+          <div class="about-badges">
+            <span class="badge">🎓 B.Tech CSE</span>
+            <span class="badge">💻 Web Dev</span>
+            <span class="badge">🐍 Python</span>
+            <span class="badge">🚀 Open to Intern</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section skills" id="skills">
+    <div class="section-label">02 — Skills</div>
+    <h2>Tech Stack</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-icon">🌐</div><div class="skill-name">HTML5</div><div class="skill-bar"><div class="skill-fill" data-w="85"></div></div><div class="skill-pct">85%</div></div>
+      <div class="skill-card"><div class="skill-icon">🎨</div><div class="skill-name">CSS3</div><div class="skill-bar"><div class="skill-fill" data-w="80"></div></div><div class="skill-pct">80%</div></div>
+      <div class="skill-card"><div class="skill-icon">⚡</div><div class="skill-name">JavaScript</div><div class="skill-bar"><div class="skill-fill" data-w="70"></div></div><div class="skill-pct">70%</div></div>
+      <div class="skill-card"><div class="skill-icon">🐍</div><div class="skill-name">Python</div><div class="skill-bar"><div class="skill-fill" data-w="75"></div></div><div class="skill-pct">75%</div></div>
+      <div class="skill-card"><div class="skill-icon">🗄️</div><div class="skill-name">SQL</div><div class="skill-bar"><div class="skill-fill" data-w="60"></div></div><div class="skill-pct">60%</div></div>
+      <div class="skill-card"><div class="skill-icon">🔧</div><div class="skill-name">Git & GitHub</div><div class="skill-bar"><div class="skill-fill" data-w="65"></div></div><div class="skill-pct">65%</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section projects" id="projects">
+    <div class="section-label">03 — Projects</div>
+    <h2>What I've Built</h2>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="project-top"><span class="project-tag">Featured</span><span class="project-year">2026</span></div>
+        <h3>Personal Portfolio Website</h3>
+        <p>A responsive portfolio to showcase projects and skills. Built with semantic HTML, custom CSS animations, and vanilla JS. Fully mobile-optimized.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+        <div class="project-links">
+          <a href="#" class="link-btn">Live Demo ↗</a>
+          <a href="https://github.com/Dev-priyanshu-tiwari/My-Portfolio" target="_blank" class="link-btn ghost">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top"><span class="project-tag">Web App</span><span class="project-year">2025</span></div>
+        <h3>SkyPeek — Weather Dashboard</h3>
+        <p>Real-time weather dashboard powered by the OpenWeatherMap API. Features city search, 5-day forecast, °C/°F toggle, sunrise/sunset times, and animated UI.</p>
+        <div class="project-tech"><span>JavaScript</span><span>REST API</span><span>CSS3</span><span>Fetch API</span></div>
+        <div class="project-links">
+          <a href="weather/index.html" class="link-btn">Live Demo ↗</a>
+          <a href="https://github.com/yourusername/skypeek" target="_blank" class="link-btn ghost">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top"><span class="project-tag">Web App</span><span class="project-year">2025</span></div>
+        <h3>Spendly — Expense Tracker</h3>
+        <p>Colorful expense tracker with SVG donut chart, monthly budget bar, category filters, month navigation, and CSV export.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>SVG</span></div>
+        <div class="project-links">
+          <a href="expense/index.html" class="link-btn">Live Demo ↗</a>
+          <a href="https://github.com/yourusername/spendly" target="_blank" class="link-btn ghost">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top"><span class="project-tag">UI/UX</span><span class="project-year">2025</span></div>
+        <h3>MindSnap — Quiz App</h3>
+        <p>Dark quiz app with animated SVG countdown timer, streak system, 3 difficulty modes, 4 categories, and LocalStorage high scores.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>LocalStorage</span></div>
+        <div class="project-links">
+          <a href="quiz/index.html" class="link-btn">Live Demo ↗</a>
+          <a href="https://github.com/yourusername/mindsnap" target="_blank" class="link-btn ghost">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card featured">
+        <div class="project-top"><span class="project-tag">Featured</span><span class="project-year">2025</span></div>
+        <h3>FlowState — Pomodoro Timer</h3>
+        <p>Dark productivity timer with animated SVG progress ring, task manager, customizable sessions, Web Audio API sounds, and daily stats.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>SVG</span><span>Web Audio API</span></div>
+        <div class="project-links">
+          <a href="pomodoro/index.html" class="link-btn">Live Demo ↗</a>
+          <a href="https://github.com/yourusername/flowstate" target="_blank" class="link-btn ghost">GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       04 — RESUME
+  ════════════════════════════ -->
+  <section class="section" id="resume">
+    <div class="section-label">04 — Resume</div>
+
+    <div class="resume-grid">
+
+      <!-- LEFT: mock resume visual -->
+      <div class="resume-preview">
+        <div class="resume-updated-badge">✓ 2025 — Updated</div>
+        <div class="resume-mock-card">
+          <div class="rmc-top">
+            <div class="rmc-avatar">PT</div>
+            <div>
+              <div class="rmc-info-name">Priyanshu Tiwari</div>
+              <div class="rmc-info-role">B.Tech CSE · 2nd Year · Web Dev</div>
+            </div>
+          </div>
+          <div class="rmc-section-label">Skills</div>
+          <div class="rmc-bars">
+            <div class="rmc-bar-row"><span class="rmc-bar-label">HTML/CSS</span><div class="rmc-bar-track"><div class="rmc-bar-fill" style="width:85%"></div></div></div>
+            <div class="rmc-bar-row"><span class="rmc-bar-label">JavaScript</span><div class="rmc-bar-track"><div class="rmc-bar-fill" style="width:70%"></div></div></div>
+            <div class="rmc-bar-row"><span class="rmc-bar-label">Python</span><div class="rmc-bar-track"><div class="rmc-bar-fill" style="width:75%"></div></div></div>
+            <div class="rmc-bar-row"><span class="rmc-bar-label">Git</span><div class="rmc-bar-track"><div class="rmc-bar-fill" style="width:65%"></div></div></div>
+          </div>
+          <div class="rmc-section-label">Tech Stack</div>
+          <div class="rmc-tags">
+            <span class="rmc-tag">HTML5</span>
+            <span class="rmc-tag">CSS3</span>
+            <span class="rmc-tag">JavaScript</span>
+            <span class="rmc-tag">Python</span>
+            <span class="rmc-tag">SQL</span>
+            <span class="rmc-tag">Git</span>
+            <span class="rmc-tag">REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: description + download -->
+      <div class="resume-content">
+        <h2>My Resume</h2>
+        <p class="resume-desc">
+          A clean, one-page resume covering my education, technical skills,
+          projects, and achievements — recruiter-friendly and ATS-compatible.
+        </p>
+
+        <div class="resume-highlights">
+          <div class="rh-item"><span>5+</span><small>Projects</small></div>
+          <div class="rh-item"><span>6+</span><small>Skills</small></div>
+          <div class="rh-item"><span>2nd</span><small>Year CSE</small></div>
+          <div class="rh-item"><span>1</span><small>Page PDF</small></div>
+        </div>
+
+        <div class="resume-actions">
+          <a
+            href="Priyanshu_Tiwari_Resume.pdf"
+            download="Priyanshu_Tiwari_Resume.pdf"
+            class="btn-resume-download"
+            id="resumeDownloadBtn"
+          >
+            <span class="dl-arrow">⬇</span>
+            Download Resume
+          </a>
+          <a
+            href="https://github.com/Dev-priyanshu-tiwari"
+            target="_blank"
+            class="btn-resume-ghost"
+          >
+            💾 View GitHub
+          </a>
+        </div>
+
+        <p class="resume-note">
+          📄 PDF &nbsp;·&nbsp; <strong>Upload Priyanshu_Tiwari_Resume.pdf to your repo root</strong><br/>
+          Then the download button works automatically on GitHub Pages.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="section-label">05 — Contact</div>
+    <h2>Let's Connect</h2>
+    <p class="contact-sub">Open to internships, collaborations, and interesting projects.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <a href="mailto:info.priyanshu06@email.com" class="contact-item">
+          <span class="ci-icon">✉️</span><span>info.priyanshu06@email.com</span>
+        </a>
+        <a href="https://linkedin.com/in/priyanshu-tiwari1117" target="_blank" class="contact-item">
+          <span class="ci-icon">🔗</span><span>linkedin.com/in/priyanshu-tiwari1117</span>
+        </a>
+        <a href="https://github.com/Dev-priyanshu-tiwari" target="_blank" class="contact-item">
+          <span class="ci-icon">💾</span><span>github.com/Dev-priyanshu-tiwari</span>
+        </a>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message →</button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Designed & Built by <strong>Priyanshu Tiwari</strong> · 2026</p>
+    <p class="footer-sub">Made with HTML, CSS, JavaScript & Your ❤️</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Download button feedback
+    const dlBtn = document.getElementById('resumeDownloadBtn');
+    if (dlBtn) {
+      dlBtn.addEventListener('click', function () {
+        const orig = this.innerHTML;
+        this.innerHTML = '<span>✓</span> Downloading…';
+        this.style.background = '#69f0ae';
+        setTimeout(() => {
+          this.innerHTML = orig;
+          this.style.background = '';
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dev Portfolio | CSE Student</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+
   <!-- ── RESUME SECTION STYLES (inline so no style.css edit needed) ── -->
   <style>
     /* ── Resume Section ── */
