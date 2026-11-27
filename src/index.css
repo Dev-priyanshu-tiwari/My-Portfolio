@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 237 240 242;
+  --ink: 16 35 58;
+  --muted: 85 101 122;
+  --line: 203 211 219;
+  --card: 255 255 255;
+  --accent: 201 48 31;
+}
+
+.dark {
+  --bg: 11 20 33;
+  --ink: 232 238 245;
+  --muted: 148 163 184;
+  --line: 38 56 80;
+  --card: 19 34 54;
+  --accent: 255 112 92;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+  body {
+    @apply bg-bg font-sans text-[1.05rem] leading-relaxed text-ink antialiased;
+    overflow-x: clip;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  :focus-visible {
+    @apply rounded outline outline-[3px] outline-offset-[3px] outline-accent;
+  }
+}
